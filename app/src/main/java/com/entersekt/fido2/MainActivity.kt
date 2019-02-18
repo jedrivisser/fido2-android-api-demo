@@ -26,6 +26,7 @@ class MainActivity : AppCompatActivity() {
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
+        Log.d(LOG_TAG, "onActivityResult")
 
         if (requestCode == REQUEST_CODE_REGISTER && resultCode == Activity.RESULT_OK) {
             data?.extras?.getByteArray("FIDO2_ERROR_EXTRA")?.let {
@@ -44,8 +45,8 @@ class MainActivity : AppCompatActivity() {
 
     private fun registerFido2() {
         val publicKeyCredentialCreationOptions = PublicKeyCredentialCreationOptions.Builder()
-            .setRp(PublicKeyCredentialRpEntity("webauthndemo.appspot.com", "webauthndemo.appspot.com", null))
-            .setUser(PublicKeyCredentialUserEntity("test@example.com".toByteArray(), "test@example.com", null, "test@example.com"))
+            .setRp(PublicKeyCredentialRpEntity("https://strategics-fido2.firebaseapp.com", "Fido2Demo", null))
+            .setUser(PublicKeyCredentialUserEntity("demo@example.com".toByteArray(), "demo@example.com", null, "Demo User"))
             .setChallenge(Base64.decode("elJqUyk/3LqVui51GSsyLky2flVPEFdtCAUsNUvFHvo=", Base64.DEFAULT))
             .setParameters(listOf(PublicKeyCredentialParameters(PublicKeyCredentialType.PUBLIC_KEY.toString(), EC2Algorithm.ES256.algoValue)))
             .build()
