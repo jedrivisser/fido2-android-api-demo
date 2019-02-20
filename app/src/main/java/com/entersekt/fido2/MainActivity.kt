@@ -10,6 +10,8 @@ import android.util.Log
 import com.google.android.gms.fido.Fido
 import com.google.android.gms.fido.fido2.api.common.*
 import kotlinx.android.synthetic.main.activity_main.*
+import com.google.android.gms.fido.fido2.api.common.AuthenticatorAttestationResponse
+
 
 class MainActivity : AppCompatActivity() {
     companion object {
@@ -26,10 +28,10 @@ class MainActivity : AppCompatActivity() {
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        Log.d(LOG_TAG, "onActivityResult")
+        Log.d(LOG_TAG, "onActivityResult - requestCode: $requestCode, resultCode: $resultCode")
 
         if (requestCode == REQUEST_CODE_REGISTER && resultCode == Activity.RESULT_OK) {
-            data?.extras?.getByteArray("FIDO2_ERROR_EXTRA")?.let {
+            data?.extras?.getByteArray(Fido.FIDO2_KEY_ERROR_EXTRA)?.let {
                 val authenticatorErrorResponse = AuthenticatorErrorResponse.deserializeFromBytes(it)
                 val errorName = authenticatorErrorResponse.errorCode.name
                 val errorMessage = authenticatorErrorResponse.errorMessage
@@ -39,13 +41,34 @@ class MainActivity : AppCompatActivity() {
 
                 val registerFidoResult = "An Error Ocurred\n\nError Name:\n$errorName\n\nError Message:\n$errorMessage"
                 registerFidoResultText.text = registerFidoResult
+                return
+            }
+
+            data?.extras?.getByteArray(Fido.FIDO2_KEY_RESPONSE_EXTRA)?.let {
+                val response = AuthenticatorAttestationResponse.deserializeFromBytes(it)
+                val keyHandleBase64 = Base64.encodeToString(response.keyHandle, Base64.DEFAULT)
+                val clientDataJson = String(response.clientDataJSON, Charsets.UTF_8)
+                val attestationObjectBase64 = Base64.encodeToString(response.attestationObject, Base64.DEFAULT)
+
+                Log.d(LOG_TAG, "keyHandleBase64: $keyHandleBase64")
+                Log.d(LOG_TAG, "clientDataJSON: $clientDataJson")
+                Log.d(LOG_TAG, "attestationObjectBase64: $attestationObjectBase64")
+
+                val registerFidoResult = "Authenticator Attestation Response\n\n" +
+                        "keyHandleBase64:\n" +
+                        "$keyHandleBase64\n\n" +
+                        "clientDataJSON:\n" +
+                        "$clientDataJson\n\n" +
+                        "attestationObjectBase64:\n" +
+                        "$attestationObjectBase64\n"
+                registerFidoResultText.text = registerFidoResult
             }
         }
     }
 
     private fun registerFido2() {
         val publicKeyCredentialCreationOptions = PublicKeyCredentialCreationOptions.Builder()
-            .setRp(PublicKeyCredentialRpEntity("https://strategics-fido2.firebaseapp.com", "Fido2Demo", null))
+            .setRp(PublicKeyCredentialRpEntity("strategics-fido2.firebaseapp.com", "Fido2Demo", null))
             .setUser(PublicKeyCredentialUserEntity("demo@example.com".toByteArray(), "demo@example.com", null, "Demo User"))
             .setChallenge(Base64.decode("elJqUyk/3LqVui51GSsyLky2flVPEFdtCAUsNUvFHvo=", Base64.DEFAULT))
             .setParameters(listOf(PublicKeyCredentialParameters(PublicKeyCredentialType.PUBLIC_KEY.toString(), EC2Algorithm.ES256.algoValue)))
