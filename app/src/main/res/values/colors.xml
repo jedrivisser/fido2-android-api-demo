@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#008577</color>
-    <color name="colorPrimaryDark">#00574B</color>
-    <color name="colorAccent">#D81B60</color>
+    <!-- From https://fidoalliance.org/overview/legal/logo-usage/-->
+    <color name="colorPrimary">#004B4E</color>
+    <color name="colorPrimaryDark">#172F30</color>
+    <color name="colorAccent">#FFBF3B</color>
 </resources>

@@ -1,4 +1,4 @@
 <resources>
-    <string name="app_name">Fido2</string>
+    <string name="app_name">Fido2 Api Demo</string>
     <string name="register_fido2">Register FIDO2</string>
 </resources>
