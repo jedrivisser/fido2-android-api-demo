@@ -7,24 +7,46 @@
     tools:context=".MainActivity">
 
     <Button
+        style="@style/Widget.AppCompat.Button.Colored"
         android:id="@+id/registerFido2Button"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_margin="8dp"
         android:text="@string/register_fido2"
-        app:layout_constraintBottom_toTopOf="@id/registerFidoResultText"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/signFido2Button"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <TextView
-        android:id="@+id/registerFidoResultText"
-        android:layout_width="wrap_content"
+    <Button
+        style="@style/Widget.AppCompat.Button.Colored"
+        android:id="@+id/signFido2Button"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:textAlignment="center"
-        android:minLines="7"
+        android:layout_margin="8dp"
+        android:text="@string/login_fido2"
+        android:enabled="false"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/registerFido2Button"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ScrollView
+        android:id="@+id/scrollView2"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/registerFido2Button"
-        tools:text="An Error Ocurred\n\nError Name:\nFake Error Name\n\nError Message:\nFake Error Message" />
+        app:layout_constraintTop_toBottomOf="@+id/signFido2Button">
+
+        <TextView
+            android:id="@+id/resultText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="8dp"
+            android:textAlignment="center"
+            android:layout_gravity="center"
+            tools:text="An Error Ocurred\n\nError Name:\nFake Error Name\n\nError Message:\nFake Error Message" />
+
+    </ScrollView>
+
 </androidx.constraintlayout.widget.ConstraintLayout>

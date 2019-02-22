@@ -1,17 +1,27 @@
-# Android Fido2 Experiment
+# Android Fido2 Api Demo
 
-This project uses `play-services-fido`'s [Fido2ApiClient][1] to register a credential
+This project uses `com.google.android.gms:play-services-fido`'s [Fido2ApiClient][1] to register a credential and also
+sign a challenge.
 
-Just run the app and click the `Register Fido2` button
+It demonstrates the Fido2 Api with hardcoded values and is `NOT` a full example that gets requests from a server
+
+It also does not validate any of the responses, as that would be done server side
+
+Just run the app and tap the `Register Fido2` button. It will display the results on the app and in the logs.
+
+Then you can tap the `Sign Fido2` button, and the Fido2 api will be used to sign a challenge with the key that was just
+generated
 
 As long as you do not change the Relying Party ID (in [PublicKeyCredentialRpEntity][2]), the signing key or the package
-name, it should just work
+name, the app should just work
 
 ## Relying Party ID
 
 According to the Web Authentication [spec][3] the relying party id is:
 
-> A valid domain string that identifies the WebAuthn Relying Party on whose behalf a given registration or authentication ceremony is being performed. A public key credential can only be used for authentication with the same entity (as identified by RP ID) it was registered with.
+> A valid domain string that identifies the WebAuthn Relying Party on whose behalf a given registration or
+authentication ceremony is being performed. A public key credential can only be used for authentication with the same
+entity (as identified by RP ID) it was registered with.
 
 For Android apps you need to host an `assetlinks.json` file on `https://<rp_id>/.well-known/assetlinks.json` to allow it
 to use the Fido2 apis for that domain.
@@ -35,10 +45,8 @@ For this sample app I have set the RP ID to `strategics-fido2.firebaseapp.com` a
 
 on <https://strategics-fido2.firebaseapp.com/.well-known/assetlinks.json> where:
 
-`package_name` matched the `applicationId` in your `build.gradle`
-
-`sha256_cert_fingerprints` matches the fingerprint of your signing key. This can be found by running the [script
-included in this project][4]
+`package_name` matches the `applicationId` in my `build.gradle` and the `sha256_cert_fingerprints` matches the
+fingerprint of my signing key. This can be found by running the [get_cert_fingerprint.sh script included in this project][4]
 
 ## Hosting assetlinks.json
 
@@ -50,7 +58,8 @@ You need to have a firebase project set up that you can deploy this site to firs
 firebase deploy --only hosting
 ```
 
-You should now have the local [assetlinks.json][6] hosted on `https://<firebase-project-id>.firebaseapp.com/.well-known/assetlinks.json` and just need to set your RP ID to `<firebase-project-id>.firebaseapp.com`
+You should now have the local [assetlinks.json][6] hosted on `https://<firebase-project-id>.firebaseapp.com/.well-known/assetlinks.json`
+and just need to set your RP ID to `<firebase-project-id>.firebaseapp.com`
 
 [1]: https://developers.google.com/android/reference/com/google/android/gms/fido/fido2/Fido2ApiClient
 [2]: https://developers.google.com/android/reference/com/google/android/gms/fido/fido2/api/common/PublicKeyCredentialRpEntity
