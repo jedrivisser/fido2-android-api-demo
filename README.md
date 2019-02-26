@@ -23,8 +23,14 @@ According to the Web Authentication [spec][3] the relying party id is:
 authentication ceremony is being performed. A public key credential can only be used for authentication with the same
 entity (as identified by RP ID) it was registered with.
 
-For Android apps you need to host an `assetlinks.json` file on `https://<rp_id>/.well-known/assetlinks.json` to allow it
-to use the Fido2 apis for that domain.
+According to [MakeCredentialOptions.Builder][7], Very hard to find, kind of hidden under `Public Methods` and then `setRp`:
+
+> Note: the RpId should be an effective domain (aka, without scheme or port); and it should also be in secure context
+(aka https connection). Apps-facing API needs to check the package signature against Digital Asset Links, whose resource
+is the RP ID with prepended "//". Privileged (browser) API doesn't need the check.
+
+So for Android apps you need to host an `assetlinks.json` file on `https://<rp_id>/.well-known/assetlinks.json` to allow
+it to use the Fido2 apis for that domain.
 
 For this sample app I have set the RP ID to `strategics-fido2.firebaseapp.com` and I am hosting this `assetlinks.json`:
 
@@ -67,3 +73,4 @@ and just need to set your RP ID to `<firebase-project-id>.firebaseapp.com`
 [4]: ./scripts/get_cert_fingerprint.sh
 [5]: ./web
 [6]: ./web/public/.well-known/assetlinks.json
+[7]: https://developers.google.com/android/reference/com/google/android/gms/fido/fido2/api/common/MakeCredentialOptions.Builder
