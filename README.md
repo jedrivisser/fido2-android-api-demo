@@ -1,5 +1,7 @@
 # Android Fido2 Api Demo
 
+> Google has released [offical docs][8] and a [sample project][9]
+
 This project uses `com.google.android.gms:play-services-fido`'s [Fido2ApiClient][1] to register a credential and also
 sign a challenge.
 
@@ -74,3 +76,5 @@ and just need to set your RP ID to `<firebase-project-id>.firebaseapp.com`
 [5]: ./web
 [6]: ./web/public/.well-known/assetlinks.json
 [7]: https://developers.google.com/android/reference/com/google/android/gms/fido/fido2/api/common/MakeCredentialOptions.Builder
+[8]: https://developers.google.com/identity/fido/android/native-apps
+[9]: https://github.com/googlesamples/android-fido
