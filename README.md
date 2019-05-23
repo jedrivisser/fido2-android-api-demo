@@ -2,6 +2,8 @@
 
 > Google has released [offical docs][8] and a [sample project][9]
 
+> Google released a [codelab][10]
+
 This project uses `com.google.android.gms:play-services-fido`'s [Fido2ApiClient][1] to register a credential and also
 sign a challenge.
 
@@ -22,14 +24,14 @@ name, the app should just work
 According to the Web Authentication [spec][3] the relying party id is:
 
 > A valid domain string that identifies the WebAuthn Relying Party on whose behalf a given registration or
-authentication ceremony is being performed. A public key credential can only be used for authentication with the same
-entity (as identified by RP ID) it was registered with.
+> authentication ceremony is being performed. A public key credential can only be used for authentication with the same
+> entity (as identified by RP ID) it was registered with.
 
 According to [MakeCredentialOptions.Builder][7], Very hard to find, kind of hidden under `Public Methods` and then `setRp`:
 
 > Note: the RpId should be an effective domain (aka, without scheme or port); and it should also be in secure context
-(aka https connection). Apps-facing API needs to check the package signature against Digital Asset Links, whose resource
-is the RP ID with prepended "//". Privileged (browser) API doesn't need the check.
+> (aka https connection). Apps-facing API needs to check the package signature against Digital Asset Links, whose resource
+> is the RP ID with prepended "//". Privileged (browser) API doesn't need the check.
 
 So for Android apps you need to host an `assetlinks.json` file on `https://<rp_id>/.well-known/assetlinks.json` to allow
 it to use the Fido2 apis for that domain.
@@ -78,3 +80,4 @@ and just need to set your RP ID to `<firebase-project-id>.firebaseapp.com`
 [7]: https://developers.google.com/android/reference/com/google/android/gms/fido/fido2/api/common/MakeCredentialOptions.Builder
 [8]: https://developers.google.com/identity/fido/android/native-apps
 [9]: https://github.com/googlesamples/android-fido
+[10]: https://codelabs.developers.google.com/codelabs/fido2-for-android/#0
