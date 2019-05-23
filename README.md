@@ -41,7 +41,7 @@ For this sample app I have set the RP ID to `strategics-fido2.firebaseapp.com` a
 ```json
 [
   {
-    "relation": ["delegate_permission/common.handle_all_urls"],
+    "relation": ["delegate_permission/common.handle_all_urls","delegate_permission/common.get_login_creds"],
     "target": {
       "namespace": "android_app",
       "package_name": "com.entersekt.fido2",
